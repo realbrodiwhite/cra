@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { register } from '../../store.js'; // Assuming you have defined this action in your Redux store
 
-const Register = () => {
+const Register = ({ toggleForm }) => {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
 
-  const handleRegister = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/api/register', { username, password });
-      setMessage(response.data.message);
-    } catch (error) {
-      setMessage('Error registering user.');
-    }
+    dispatch(register({ username }));
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit} className="auth-form">
       <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Register</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+      <input
+        type="text"
+        placeholder="Enter a username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <button type="submit">Register</button>
+      <p>Already have an account? <span onClick={toggleForm}>Login</span></p>
+    </form>
   );
 };
 

@@ -5,8 +5,8 @@ import {
 } from 'react-router-dom';
 import Game from './features/game/Game';
 import GameList from './features/game-list/GameList';
-import Register from './features/register/Register';
-import Login from './features/login/Login';
+import Register from './features/register/register.js';
+import Login from './features/login/login.js';
 import { Fragment } from 'react';
 
 function App() {

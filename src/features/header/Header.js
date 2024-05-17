@@ -2,42 +2,54 @@ import { faCog, faCrown, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Header.scss';
 import { useSelector } from 'react-redux';
-import { useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { SocketContext } from '../../context/socket';
 import store from '../../store';
 import lobbySlice from '../../lobbySlice';
+import Modal from '../modal/Modal';
+import Login from '../login/Login';
+import Register from '../register/Register';
 
 const Header = (props) => {
   const loggedIn = useSelector((state) => state.lobby.loggedIn);
   const username = useSelector((state) => state.lobby.username);
   const balance = useSelector((state) => state.lobby.balance);
 
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+
   const socket = useContext(SocketContext);
 
   useEffect(() => {
-    socket.emit('balance', {
-      key: localStorage.getItem('key'),
-    });
+    if (loggedIn) {
+      socket.emit('balance', {
+        key: localStorage.getItem('key'),
+      });
 
-    socket.on('balance', (balance) => {
-      store.dispatch(lobbySlice.actions.updateBalance(balance));
-    });
-  }, [socket]);
+      socket.on('balance', (balance) => {
+        store.dispatch(lobbySlice.actions.updateBalance(balance));
+      });
+    }
+  }, [socket, loggedIn]);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
+  };
 
   return (
     <div className="Header">
       <div className="brand">
-        <FontAwesomeIcon
-          icon={faCrown}
-          size="2x"
-          className="logo"
-        ></FontAwesomeIcon>
+        <FontAwesomeIcon icon={faCrown} size="2x" className="logo"></FontAwesomeIcon>
         <span className="name">Royal Games</span>
       </div>
 
       <div className={`menu ${!loggedIn ? "d-none" : ""}`}>
         <div className="account">
-          <button className="btn-toggle-account-menu">
+          <button className="btn-toggle-account-menu" onClick={toggleModal}>
             <FontAwesomeIcon icon={faUserCircle} size="2x"></FontAwesomeIcon>
             <span>{username}</span>
           </button>
@@ -57,6 +69,10 @@ const Header = (props) => {
           })}
         </span>
       </div>
+
+      <Modal isVisible={isModalVisible} toggleModal={toggleModal}>
+        {isLogin ? <Login toggleForm={toggleForm} /> : <Register toggleForm={toggleForm} />}
+      </Modal>
     </div>
   );
 }

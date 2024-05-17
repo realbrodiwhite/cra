@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/actions'; // Assuming you have defined this action in your Redux store
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+const Login = ({ toggleForm }) => {
+  const [key, setKey] = useState('');
+  const dispatch = useDispatch();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('/api/login', { username, password });
-      setMessage(response.data.message);
-    } catch (error) {
-      setMessage('Error logging in.');
-    }
+    dispatch(login({ key }));
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit} className="auth-form">
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+      <input
+        type="text"
+        placeholder="Enter your key"
+        value={key}
+        onChange={(e) => setKey(e.target.value)}
+      />
+      <button type="submit">Login</button>
+      <p>Don't have an account? <span onClick={toggleForm}>Register</span></p>
+    </form>
   );
 };
 
