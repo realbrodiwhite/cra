@@ -2,6 +2,9 @@
   "name": "royal-games-cra",
   "version": "0.5.0",
   "private": true,
+  "devDependencies": {
+    "babel/plugin-proposal-private-property-in-object": "*"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",

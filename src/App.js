@@ -5,10 +5,27 @@ import {
 } from 'react-router-dom';
 import Game from './features/game/Game';
 import GameList from './features/game-list/GameList';
-import Register from './features/register/register.js';
-import Login from './features/login/login.js';
+// import Register from './features/register/Register';
+// import Login from './features/login/Login';
 import { Fragment } from 'react';
 
+// function App() {
+//  return (
+//    <div className="App">
+//      <BrowserRouter>
+//        <Routes>
+//          <Route path="/" element={<Fragment>
+//            <Header />
+//            <GameList />
+//          </Fragment>} />
+//          <Route path="/play/:gameId" element={<Game />} />
+//          <Route path="/register" element={<Register />} />
+//        <Route path="/login" element={<Login />} />
+//        </Routes>
+//      </BrowserRouter>
+//    </div>
+//  );
+//}
 function App() {
   return (
     <div className="App">
@@ -19,8 +36,6 @@ function App() {
             <GameList />
           </Fragment>} />
           <Route path="/play/:gameId" element={<Game />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>
