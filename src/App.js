@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import './App.scss';
+import Header from './features/header/Header';
+import {
+  BrowserRouter, Route, Routes
+} from 'react-router-dom';
+import Game from './features/game/Game';
+import GameList from './features/game-list/GameList';
+import Register from './features/register/Register';
+import Login from './features/login/Login';
+import { Fragment } from 'react';
 
 function App() {
-  const [items, setItems] = useState([]);
-  
-  useEffect(() => {
-    fetch("/api/items")
-      .then((res) => res.json())
-      .then((data) => setItems(data));
-  }, []);
-
-  function renderItems () {
-    return items.map ((item, i) => {
-      return (
-        <div key={i}>
-        <h3>{item.name}</h3>
-        <p>Price: {item.price}</p>
-        </div>
-      );
-    });
-  }
-
   return (
-    <main>
-      <h1>Example Web Shop</h1>
-      {renderItems()}
-    </main>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Fragment>
+            <Header />
+            <GameList />
+          </Fragment>} />
+          <Route path="/play/:gameId" element={<Game />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
