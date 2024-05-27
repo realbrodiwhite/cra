@@ -1,27 +1,48 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { Login } from '../../store.js'; // Assuming you have defined this action in your Redux store
+// import { LoginWithEmail } from '../../store.js'; // Assuming you have defined this action in your Redux store
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ toggleForm }) => {
-  const [key, setKey] = useState('');
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate(); 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ key }));
+    try {
+      await dispatch(LoginWithEmail({ email, password }));
+      navigate("/lobby");
+    } catch (error) {
+      setLoginError('Invalid email or password');
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="auth-form">
       <h2>Login</h2>
       <input
-        type="text"
-        placeholder="Enter your key"
-        value={key}
-        onChange={(e) => setKey(e.target.value)}
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
+      <input
+        type="password"
+        placeholder="Enter your password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      {loginError && <p className="error">{loginError}</p>}
       <button type="submit">Login</button>
-      <p>Don't have an account? <span onClick={toggleForm}>Register</span></p>
+      <p>
+        Don't have an account yet? <a href="/register">Register Now</a>
+      </p>
+      <p>
+        <a href="/reset-password">Forgot your password?</a>
+      </p>
     </form>
   );
 };

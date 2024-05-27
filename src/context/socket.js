@@ -1,10 +1,14 @@
+
 import io from "socket.io-client";
 import React from 'react';
 import store from '../store';
 import lobbySlice from "../lobbySlice";
+import { useSelector } from "react-redux";
+import ReactDOM from 'react-dom/client';
+import { useNavigate } from 'react-router-dom';
 
-// export const socket = io.connect('https://royalgames-server.replit.app');
-export const socket = io.connect('http://localhost:8080');
+export const socket = io.connect('https://royal-games.replit.app');
+// export const socket = io.connect('http://localhost:8080');
 export const SocketContext = React.createContext();
 
 socket.on('connect', () => {
@@ -32,6 +36,14 @@ socket.on('connect', () => {
         username: data.username,
       }));
       store.dispatch(lobbySlice.actions.updateBalance(data.balance));
+    } else {
+      const loggedIn = useSelector((state) => state.lobby.loggedIn);
+      if (!loggedIn) {
+        // Open the modal with the login form when the user is not logged in
+        const headerElement = document.getElementById('header');
+        const headerInstance = ReactDOM.render(<Header />, headerElement);
+        headerInstance.toggleModal();
+      }
     }
   });
 });

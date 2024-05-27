@@ -1,13 +1,13 @@
-import { useContext, useEffect, useRef } from 'react';
-import './Game.scss';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { SocketContext } from '../../context/socket';
-import * as PIXI from 'pixi.js';
-import Reel from '../../slot/Reel';
-import SlotGame from '../../slot/SlotGame';
-import initControls from '../../slot/initControls';
-import gsap from 'gsap';
+import { useContext, useEffect, useRef } from "react";
+import "./Game.scss";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { SocketContext } from "../../context/socket";
+import * as PIXI from "pixi.js";
+import Reel from "../../slot/Reel";
+import SlotGame from "../../slot/SlotGame";
+import initControls from "../../slot/initControls";
+import gsap from "gsap";
 
 const Game = (props) => {
   const elRef = useRef(null);
@@ -19,7 +19,7 @@ const Game = (props) => {
     let game;
 
     axios.get(`../gamescripts/${params.gameId}.js`).then((response) => {
-      game = (new Function(`
+      game = new Function(`
         const gameId = arguments[0];
         const Game = arguments[1];
         const Reel = arguments[2];
@@ -30,10 +30,21 @@ const Game = (props) => {
         const goToLobby = arguments[7];
 
         ${response.data}
-      `))(params.gameId, SlotGame, Reel, initControls, socket, PIXI, gsap, () => { navigate('/'); });
-      
-      const gameCanvas = elRef.current.querySelector('canvas');
-      
+      `)(
+        params.gameId,
+        SlotGame,
+        Reel,
+        initControls,
+        socket,
+        PIXI,
+        gsap,
+        () => {
+          navigate("/");
+        },
+      );
+
+      const gameCanvas = elRef.current.querySelector("canvas");
+
       if (gameCanvas) {
         gameCanvas.remove();
       }
@@ -46,14 +57,7 @@ const Game = (props) => {
     };
   }, []);
 
-  return (
-    <div
-      className="Game"
-      ref={elRef}
-    >
-      
-    </div>
-  );
-}
+  return <div className="Game" ref={elRef}></div>;
+};
 
 export default Game;
