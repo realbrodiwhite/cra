@@ -36,7 +36,7 @@ const Header = (props) => {
     setModalVisible(!isModalVisible);
   };
 
-  const toggleForm = () =>
+  const toggleForm = () => {
     setIsLogin(!isLogin);
   };
 

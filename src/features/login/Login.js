@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { LoginWithEmail } from '../../store.js'; // Assuming you have defined this action in your Redux store
 import { useNavigate } from "react-router-dom";
+// import { Login } from '../../lobbySlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(LoginWithEmail({ email, password }));
+      await dispatch(Login({ email, password }));
       navigate("/lobby");
     } catch (error) {
       setLoginError('Invalid email or password');

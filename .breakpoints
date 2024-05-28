@@ -1,12 +1,3 @@
 {
-  "files": {
-    "src/features/login/Login.js": [
-      {
-        "id": "681940dc-611f-4700-988c-20d693ae022b",
-        "line": 1,
-        "version": 5,
-        "index": 0
-      }
-    ]
-  }
+  "files": {}
 }
