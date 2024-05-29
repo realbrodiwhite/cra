@@ -8,6 +8,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 9997;
   }
   
   .modal-content {
@@ -17,6 +19,8 @@
     position: relative;
     max-width: 500px;
     width: 100%;
+    position: relative;
+    z-index: 9998;
   }
   
   .close-btn {
@@ -27,5 +31,7 @@
     border: none;
     font-size: 18px;
     cursor: pointer;
+    position: relative;
+    z-index: 9999;
   }
   

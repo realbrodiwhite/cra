@@ -7,9 +7,12 @@
   justify-content: center;
   align-items: center;
   background-color: #000;
+  position: relative;
+  z-index: 8000;
 
   canvas {
     display: block;
     margin: 0 auto;
+    position:re
   }
 }
